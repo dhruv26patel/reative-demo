@@ -1,0 +1,46 @@
+buildscript {
+	ext {
+		droolsVersion = "7.33.0.Final"
+		swaggerVersion = "2.9.2"
+		lombokVersion = "1.18.12"
+		googleVersion = "1.7"
+		reactorVersion = "2.2.5.RELEASE"
+	}
+}
+
+
+plugins {
+	id 'org.springframework.boot' version '2.4.0-SNAPSHOT'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+	id "com.diffplug.gradle.spotless" version "3.27.1"
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+	maven { url 'https://repo.spring.io/snapshot' }
+}
+
+dependencies {
+	implementation("org.springframework.boot:spring-boot-starter-webflux:$reactorVersion")
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'io.projectreactor:reactor-test'
+
+	// Swagger
+	implementation("io.springfox:springfox-swagger2:$swaggerVersion")
+	implementation("io.springfox:springfox-swagger-ui:$swaggerVersion")
+	implementation("com.google.googlejavaformat:google-java-format:$googleVersion")
+
+	// Lombok
+	annotationProcessor("org.projectlombok:lombok:$lombokVersion")
+	compileOnly("org.projectlombok:lombok:$lombokVersion")
+}
+
+test {
+	useJUnitPlatform()
+}

@@ -16,8 +16,7 @@ public class ReactiveService {
     @Autowired
     private RestTemplate restTemplate;
 
-    public Mono<String> getData() {
-
+    public ResponseEntity<String> getRestTemplateData() {
         HttpHeaders headers = new HttpHeaders();
         headers.set("X-App-Token", System.getenv("X-App-Token"));
         headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
@@ -26,16 +25,21 @@ public class ReactiveService {
 
         long startTime1 = System.nanoTime();
 
-        ResponseEntity<String> dataRest = restTemplate.exchange("https://data.cityofchicago.org/resource/yhhz-zm2v.json", HttpMethod.GET, entityReq, String.class);
+        ResponseEntity<String> dataRestTemplate = restTemplate.exchange("https://data.cityofchicago.org/resource/yhhz-zm2v.json", HttpMethod.GET, entityReq, String.class);
 
         long endTime1   = System.nanoTime();
         long totalTime1 = endTime1 - startTime1;
 
         System.out.println("Synchronous Call: " + totalTime1);
 
+        return dataRestTemplate;
+    }
+
+    public Mono<String> getWebClientData() {
+
         long startTime2 = System.nanoTime();
 
-        Mono<String> dataRestWebCleint = webClientBuilder
+        Mono<String> dataWebCleint = webClientBuilder
                 .build()
                 .get()
                 .uri("https://data.cityofchicago.org/resource/yhhz-zm2v.json")
@@ -49,6 +53,6 @@ public class ReactiveService {
 
         System.out.println("Asynchronous Call: " + totalTime2);
 
-        return dataRestWebCleint;
+        return dataWebCleint;
     }
 }

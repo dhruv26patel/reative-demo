@@ -39,6 +39,13 @@ dependencies {
 	// Lombok
 	annotationProcessor("org.projectlombok:lombok:$lombokVersion")
 	compileOnly("org.projectlombok:lombok:$lombokVersion")
+
+	// Test
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	testImplementation 'org.springframework.security:spring-security-test'
+	implementation 'junit:junit:4.12'
 }
 
 test {
